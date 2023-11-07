@@ -40,10 +40,20 @@
     additem.style.fontWeight = 'bold'
     additem.style.color = 'green'
 
-    const cl = document.getElementsByClassName('list-group-item')
-    cl[2].style.backgroundColor = 'green'
-    for (let i = 0; i < cl.length; i++) {
-      cl[i].style.fontWeight = 'bold'
+    // const cl = document.getElementsByClassName('list-group-item')
+    // cl[2].style.backgroundColor = 'green'
+    // for (let i = 0; i < cl.length; i++) {
+    //   cl[i].style.fontWeight = 'bold'
+    // }
+
+    const ulist = document.getElementById('items')
+    const li = document.getElementsByTagName('li')
+    const l = document.createElement('li')
+    l.appendChild(document.createTextNode('new list'))
+    ulist.appendChild(l)
+    li[2].style.backgroundColor = 'green'
+    for (let i = 0; i < li.length; i++) {
+      li[i].style.fontWeight = 'bold'
     }
   </script>
 </body>
