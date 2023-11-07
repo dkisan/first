@@ -56,12 +56,17 @@
     //   li[i].style.fontWeight = 'bold'
     // }
 
-    const lists = document.querySelector('.list-group-item:nth-child(2)')
-    const listthree = document.querySelector('.list-group-item:nth-child(3)')
-    lists.style.backgroundColor = 'green'
-    listthree.style.display = 'none'
+    // const lists = document.querySelector('.list-group-item:nth-child(2)')
+    // const listthree = document.querySelector('.list-group-item:nth-child(3)')
+    // lists.style.backgroundColor = 'green'
+    // listthree.style.display = 'none'
 
- 
+    const ls = document.querySelectorAll('.list-group-item')
+    ls[1].style.color = 'green'
+    const oddls = document.querySelectorAll('.list-group-item:nth-child(odd)')
+    for(let i=0;i<oddls.length;i++){
+      oddls[i].style.backgroundColor = 'green'
+    }
     
 
 
