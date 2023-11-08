@@ -42,15 +42,29 @@
         Object.keys(localStorage).forEach(element => {
             let a = JSON.parse(localStorage.getItem(element))
             const li = document.createElement('li')
-                const button = document.createElement('button')
-                button.appendChild(document.createTextNode('delete'))
-                button.setAttribute('onClick', 'deleteFunction(event)')
-                li.appendChild(document.createTextNode(`Name - ${a.Name} & Email - ${a.Email}`))
-                li.appendChild(button)
-                ul.appendChild(li)
+            const button = document.createElement('button')
+            button.appendChild(document.createTextNode('delete'))
+            button.setAttribute('onClick', 'deleteFunction(event)')
+
+            const ebutton = document.createElement('button')
+            ebutton.appendChild(document.createTextNode('edit'))
+            ebutton.setAttribute('onClick', 'editFunction(event)')
+
+            li.appendChild(document.createTextNode(`Name - ${a.Name} & Email - ${a.Email}`))
+            li.appendChild(button)
+            li.appendChild(ebutton)
+            ul.appendChild(li)
         });
 
-        
+        function editFunction(e) {
+            let a = e.target.parentElement.textContent.split(' ')[2]
+            let b = JSON.parse(localStorage.getItem(a))
+            name.value = b.Name
+            email.value = b.Email
+            ul.removeChild(e.target.parentElement)
+            localStorage.removeItem(a)
+        }
+
 
         function deleteFunction(e) {
             let a = e.target.parentElement.textContent.split(' ')[2]
@@ -67,8 +81,15 @@
                 const button = document.createElement('button')
                 button.appendChild(document.createTextNode('delete'))
                 button.setAttribute('onClick', 'deleteFunction(event)')
+
+                const ebutton = document.createElement('button')
+                ebutton.appendChild(document.createTextNode('edit'))
+                ebutton.setAttribute('onClick', 'editFunction(event)')
+
+
                 li.appendChild(document.createTextNode(`Name - ${name.value} & Email - ${email.value}`))
                 li.appendChild(button)
+                li.appendChild(ebutton)
                 ul.appendChild(li)
                 // if (localStorage.getItem('user')) {
                 //     const user = JSON.parse(localStorage.getItem('user'))
