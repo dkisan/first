@@ -39,36 +39,74 @@
         const name = document.querySelector('#name')
         const email = document.querySelector('#email')
 
+        Object.keys(localStorage).forEach(element => {
+            let a = JSON.parse(localStorage.getItem(element))
+            const li = document.createElement('li')
+                const button = document.createElement('button')
+                button.appendChild(document.createTextNode('delete'))
+                button.setAttribute('onClick', 'deleteFunction(event)')
+                li.appendChild(document.createTextNode(`Name - ${a.Name} & Email - ${a.Email}`))
+                li.appendChild(button)
+                ul.appendChild(li)
+        });
+
+        
+
+        function deleteFunction(e) {
+            let a = e.target.parentElement.textContent.split(' ')[2]
+            ul.removeChild(e.target.parentElement)
+            localStorage.removeItem(a)
+        }
+
         function submitForm(e) {
             e.preventDefault()
             if (name.value === '' || email.value === '') {
                 alert('fill all the fields')
             } else {
                 const li = document.createElement('li')
+                const button = document.createElement('button')
+                button.appendChild(document.createTextNode('delete'))
+                button.setAttribute('onClick', 'deleteFunction(event)')
                 li.appendChild(document.createTextNode(`Name - ${name.value} & Email - ${email.value}`))
-
-
+                li.appendChild(button)
                 ul.appendChild(li)
-                if (localStorage.getItem('user')) {
-                    alert('hi')
-                    const user = JSON.parse(localStorage.getItem('user'))
-                    user.data.push({
-                        'name': name.value,
-                        'email': email.value,
-                    })
+                // if (localStorage.getItem('user')) {
+                //     const user = JSON.parse(localStorage.getItem('user'))
+                //     let bool = true
+                //     Array.from(user.data).forEach(u => {
+                //         if (u.name == name.value) {
+                //             bool = false
+                //         }
+                //     })
+                //     if (bool) {
 
-                    localStorage.setItem('user', JSON.stringify(user))
+                //         user.data.push({
+                //             'name': name.value,
+                //             'email': email.value,
+                //         })
+                //         localStorage.setItem('user', JSON.stringify(user))
+                //     } else {
+                //         alert('user already present')
+                //     }
+
+                // } else {
+
+                //     const user = {
+                //         data: []
+                //     }
+                //     user.data.push({
+                //         'name': name.value,
+                //         'email': email.value,
+                //     })
+
+                //     localStorage.setItem('user', JSON.stringify(user))
+                // }
+
+                if (!localStorage.getItem(name.value)) {
+                    localStorage.setItem(name.value, JSON.stringify({ Name: name.value, Email: email.value }))
                 } else {
+                    alert('user already present')
 
-                    const user = {
-                        data: []
-                    }
-                    user.data.push({
-                        'name': name.value,
-                        'email': email.value,
-                    })
-
-                    localStorage.setItem('user', JSON.stringify(user))
                 }
                 name.value = ''
                 email.value = ''
