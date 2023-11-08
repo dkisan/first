@@ -25,15 +25,23 @@
       </form>
       <h2 class="title">Items</h2>
       <ul id="items" class="list-group">
-        <li class="list-group-item">Item 1</li>
-        <li class="list-group-item">Item 2</li>
-        <li class="list-group-item">Item 3</li>
-        <li class="list-group-item">Item 4</li>
+        <li class="list-group-item">Item 1<button onclick="deleteFunctionality(event)" class="btn btn-danger btn-sm float-right delete">X</button><button class="btn btn-danger btn-sm float-right delete mr-2">Edit</button></li>
+        <li class="list-group-item">Item 2<button onclick="deleteFunctionality(event)" class="btn btn-danger btn-sm float-right delete">X</button><button class="btn btn-danger btn-sm float-right delete mr-2">Edit</button></li>
+        <li class="list-group-item">Item 3<button onclick="deleteFunctionality(event)" class="btn btn-danger btn-sm float-right delete">X</button><button class="btn btn-danger btn-sm float-right delete mr-2">Edit</button></li>
+        <li class="list-group-item">Item 4<button onclick="deleteFunctionality(event)" class="btn btn-danger btn-sm float-right delete">X</button><button class="btn btn-danger btn-sm float-right delete mr-2">Edit</button></li>
       </ul>
     </div>
   </div>
 
   <script>
+    function deleteFunctionality(e){
+      const l = document.getElementById('items')
+      e.preventDefault()
+      const elem = e.target.parentElement
+      l.removeChild(elem)
+    }
+
+
     const t = document.querySelector('#main-header')
     const additem = document.querySelector('.title')
     t.style.border = '2px solid black'
@@ -69,35 +77,35 @@
     // }
 
 
-    const l = document.querySelector('#items')
-    console.log('Parent Element:',l.parentElement)
-    const cont = document.querySelector('.container:nth-child(2)')
-    console.log(cont.lastElementChild)
-    console.log('Last child:',l.lastChild)
-    console.log('First child:',l.firstChild)
-    console.log('First Element Child:',l.firstElementChild)
-    console.log('next sibling', l.nextSibling)
-    const tt = document.querySelector('.title')
-    console.log('next Element sibling', tt.nextElementSibling)
-    console.log('previou sibling', tt.previousSibling)
-    console.log('previou Element sibling', l.previousElementSibling)
+    // const l = document.querySelector('#items')
+    // console.log('Parent Element:',l.parentElement)
+    // const cont = document.querySelector('.container:nth-child(2)')
+    // console.log(cont.lastElementChild)
+    // console.log('Last child:',l.lastChild)
+    // console.log('First child:',l.firstChild)
+    // console.log('First Element Child:',l.firstElementChild)
+    // console.log('next sibling', l.nextSibling)
+    // const tt = document.querySelector('.title')
+    // console.log('next Element sibling', tt.nextElementSibling)
+    // console.log('previou sibling', tt.previousSibling)
+    // console.log('previou Element sibling', l.previousElementSibling)
 
-    const h1 = document.createElement('h1')
-    h1.setAttribute('id','hellotag')
-    h1.appendChild(document.createTextNode('Hello '))
-    cont.appendChild(h1)
+    // const h1 = document.createElement('h1')
+    // h1.setAttribute('id','hellotag')
+    // h1.appendChild(document.createTextNode('Hello '))
+    // cont.appendChild(h1)
 
-    const ilister = document.querySelector('.container')
-    const ilisterh1 = document.querySelector('.container h1')
-    const te = document.createElement('h3')
-    te.appendChild(document.createTextNode('Hello'))
-    ilister.insertBefore(te,ilisterh1)
+    // const ilister = document.querySelector('.container')
+    // const ilisterh1 = document.querySelector('.container h1')
+    // const te = document.createElement('h3')
+    // te.appendChild(document.createTextNode('Hello'))
+    // ilister.insertBefore(te,ilisterh1)
 
-    const litem = document.querySelector('.list-group-item')
-    const hword = document.createElement('li')
-    hword.setAttribute('class','list-group-item')
-    hword.appendChild(document.createTextNode('Hello'))
-    l.insertBefore(hword,litem)
+    // const litem = document.querySelector('.list-group-item')
+    // const hword = document.createElement('li')
+    // hword.setAttribute('class','list-group-item')
+    // hword.appendChild(document.createTextNode('Hello'))
+    // l.insertBefore(hword,litem)
 
 
 
