@@ -13,18 +13,26 @@
 <body>
   <header id="main-header" class="bg-success text-white p-4 mb-3">
     <div class="container">
-      <h1 id="header-title">Item Lister <span style="display:none">123</span></h1>
+      <div class="row">
+        <div class="col-md-6">
+            <h1 id="header-title">Item Lister</h1>
+        </div>
+        <div class="col-md-6 align-self-center">
+            <input onkeyup="showItem(event)" type="text" class="form-control" id="filter" placeholder="Search Items...">
+        </div>
+      </div>
     </div>
   </header>
   <div class="container">
     <div id="main" class="card card-body">
       <h2 class="title">Add Items</h2>
-      <form class="form-inline mb-3">
-        <input type="text" class="form-control mr-2">
+      <form class="form-inline mb-3"  onsubmit="addFunctionality(event)">
+        <input id="firstinput" type="text" class="form-control mr-2">
+        <input id="secondinput" type="text" class="form-control mr-2">
         <input type="submit" class="btn btn-dark" value="Submit">
       </form>
       <h2 class="title">Items</h2>
-      <ul id="items" class="list-group">
+      <ul id="items" class="list-group" >
         <li class="list-group-item">Item 1<button onclick="deleteFunctionality(event)" class="btn btn-danger btn-sm float-right delete">X</button><button class="btn btn-danger btn-sm float-right delete mr-2">Edit</button></li>
         <li class="list-group-item">Item 2<button onclick="deleteFunctionality(event)" class="btn btn-danger btn-sm float-right delete">X</button><button class="btn btn-danger btn-sm float-right delete mr-2">Edit</button></li>
         <li class="list-group-item">Item 3<button onclick="deleteFunctionality(event)" class="btn btn-danger btn-sm float-right delete">X</button><button class="btn btn-danger btn-sm float-right delete mr-2">Edit</button></li>
@@ -35,10 +43,42 @@
 
   <script>
     function deleteFunctionality(e){
-      const l = document.getElementById('items')
       e.preventDefault()
+      const l = document.getElementById('items')
       const elem = e.target.parentElement
       l.removeChild(elem)
+    }
+    
+    function addFunctionality(e){
+      e.preventDefault()
+      let item = document.createTextNode( document.getElementById('firstinput').value + ' ' + document.getElementById('secondinput').value)
+      const li = document.createElement('li')
+      const items = document.querySelector('#items')
+      const dbtn = document.createElement('button')
+      dbtn.setAttribute('class','btn btn-danger btn-sm float-right delete')
+      dbtn.setAttribute('onclick','deleteFunctionality(event)')
+      dbtn.appendChild(document.createTextNode('X'))
+      const ebtn = document.createElement('button')
+      ebtn.setAttribute('class','btn btn-danger btn-sm float-right delete mr-2')
+      ebtn.appendChild(document.createTextNode('Edit'))
+      li.setAttribute('class','list-group-item')
+      li.appendChild(item)
+      li.appendChild(dbtn)
+      li.appendChild(ebtn)
+      items.appendChild(li)
+    }
+
+    function showItem(e){
+      e.preventDefault()
+      const st = document.getElementById('filter').value.toLowerCase()
+      const list = document.getElementsByTagName('li')
+      Array.from(list).forEach(element => {
+        if(element.firstChild.textContent.toLowerCase().indexOf(st) != -1){
+          element.style.display = 'block'
+        }else{
+          element.style.display = 'none'
+        }
+      });
     }
 
 
