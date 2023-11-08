@@ -61,12 +61,46 @@
     // lists.style.backgroundColor = 'green'
     // listthree.style.display = 'none'
 
-    const ls = document.querySelectorAll('.list-group-item')
-    ls[1].style.color = 'green'
-    const oddls = document.querySelectorAll('.list-group-item:nth-child(odd)')
-    for(let i=0;i<oddls.length;i++){
-      oddls[i].style.backgroundColor = 'green'
-    }
+    // const ls = document.querySelectorAll('.list-group-item')
+    // ls[1].style.color = 'green'
+    // const oddls = document.querySelectorAll('.list-group-item:nth-child(odd)')
+    // for(let i=0;i<oddls.length;i++){
+    //   oddls[i].style.backgroundColor = 'green'
+    // }
+
+
+    const l = document.querySelector('#items')
+    console.log('Parent Element:',l.parentElement)
+    const cont = document.querySelector('.container:nth-child(2)')
+    console.log(cont.lastElementChild)
+    console.log('Last child:',l.lastChild)
+    console.log('First child:',l.firstChild)
+    console.log('First Element Child:',l.firstElementChild)
+    console.log('next sibling', l.nextSibling)
+    const tt = document.querySelector('.title')
+    console.log('next Element sibling', tt.nextElementSibling)
+    console.log('previou sibling', tt.previousSibling)
+    console.log('previou Element sibling', l.previousElementSibling)
+
+    const h1 = document.createElement('h1')
+    h1.setAttribute('id','hellotag')
+    h1.appendChild(document.createTextNode('Hello '))
+    cont.appendChild(h1)
+
+    const ilister = document.querySelector('.container')
+    const ilisterh1 = document.querySelector('.container h1')
+    const te = document.createElement('h3')
+    te.appendChild(document.createTextNode('Hello'))
+    ilister.insertBefore(te,ilisterh1)
+
+    const litem = document.querySelector('.list-group-item')
+    const hword = document.createElement('li')
+    hword.setAttribute('class','list-group-item')
+    hword.appendChild(document.createTextNode('Hello'))
+    l.insertBefore(hword,litem)
+
+
+
     
 
 
