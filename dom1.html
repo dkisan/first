@@ -39,22 +39,40 @@
         const name = document.querySelector('#name')
         const email = document.querySelector('#email')
 
-        function submitForm(e){
+        function submitForm(e) {
             e.preventDefault()
-            if(name.value === '' || email.value === ''){
+            if (name.value === '' || email.value === '') {
                 alert('fill all the fields')
-            }else{
+            } else {
                 const li = document.createElement('li')
                 li.appendChild(document.createTextNode(`Name - ${name.value} & Email - ${email.value}`))
 
 
                 ul.appendChild(li)
+                if (localStorage.getItem('user')) {
+                    alert('hi')
+                    const user = JSON.parse(localStorage.getItem('user'))
+                    user.data.push({
+                        'name': name.value,
+                        'email': email.value,
+                    })
 
-                localStorage.setItem('name',name.value)
-                localStorage.setItem('email',email.value)
+                    localStorage.setItem('user', JSON.stringify(user))
+                } else {
+
+                    const user = {
+                        data: []
+                    }
+                    user.data.push({
+                        'name': name.value,
+                        'email': email.value,
+                    })
+
+                    localStorage.setItem('user', JSON.stringify(user))
+                }
                 name.value = ''
                 email.value = ''
-                
+
             }
         }
         // ul.firstElementChild.innerHTML = 'Hello'
