@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker with Local Storage</title>
+</head>
+
+<body>
+
+    <form action="#" onsubmit="addExpense(event)">
+        <label for="">Choose Expense Amount : </label>
+        <input type="number" name="" id="expamount">
+        <label for="">Choose Description : </label>
+        <input type="text" name="" id="expdesc">
+        <label for="">Choose Category : </label>
+        <select name="" id="expcategory">
+            <option value="Fuel">Fuel</option>
+            <option value="Food">Food</option>
+            <option value="Electricity">Electricity</option>
+            <option value="Movie">Movie</option>
+        </select>
+        <button type="submit"> Add Expense</button>
+    </form>
+    <ul id="explist"></ul>
+
+    <script>
+        const explist = document.getElementById('explist')
+        const expamount = document.getElementById('expamount')
+        const expdesc = document.getElementById('expdesc')
+        const expcategory = document.getElementById('expcategory')
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.length > 0) {
+                let a = Object.keys(localStorage)
+                for (let i = 0; i < a.length; i++) {
+                    let exp = JSON.parse(localStorage.getItem(a[i]))
+                    createChild(a[i], exp)
+                }
+            }
+        })
+
+        function editFunction(e) {
+            let elem = e.target.parentElement
+            let exp = JSON.parse(localStorage.getItem(elem.getAttribute('id')))
+            expamount.value = exp.amount
+            expdesc.value = exp.description
+            expcategory.value = exp.category
+            localStorage.removeItem(elem.getAttribute('id'))
+            explist.removeChild(elem)
+        }
+
+        function delFunction(e) {
+            let elem = e.target.parentElement
+            localStorage.removeItem(elem.getAttribute('id'))
+            explist.removeChild(elem)
+        }
+
+        function createChild(k, obj) {
+            const li = document.createElement('li')
+            li.setAttribute('id', k)
+            li.appendChild(document.createTextNode(`${obj.amount} - ${obj.description} - ${obj.category}`))
+            let delbtn = document.createElement('button')
+            let editbtn = document.createElement('button')
+            editbtn.setAttribute('onclick', 'editFunction(event)')
+            delbtn.setAttribute('onclick', 'delFunction(event)')
+            delbtn.appendChild(document.createTextNode('Delete'))
+            editbtn.appendChild(document.createTextNode('Edit'))
+            li.appendChild(editbtn)
+            li.appendChild(delbtn)
+            explist.appendChild(li)
+            expamount.value = ''
+            expdesc.value =''
+            expcategory.value =''
+
+        }
+
+        function addExpense(e) {
+            e.preventDefault()
+            let key = expamount.value + expdesc.value + expcategory.value
+            let exp = {
+                amount: expamount.value,
+                description: expdesc.value,
+                category: expcategory.value
+            }
+
+            localStorage.setItem(key, JSON.stringify(exp))
+            createChild(key, exp)
+
+
+        }
+    </script>
+
+</body>
+
+</html>
