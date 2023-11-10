@@ -84,6 +84,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
 
     <script>
+        const crudapi = 'baccd2e449ba4e769c44b9668ec350aa'
         const l = document.getElementById('appointlist')
         function formsubmit(e) {
             e.preventDefault()
@@ -94,7 +95,7 @@
             console.log("Time : ", document.getElementById('timeid').value)
 
 
-            axios.post('https://crudcrud.com/api/baccd2e449ba4e769c44b9668ec350aa/users', {
+            axios.post(`https://crudcrud.com/api/${crudapi}/users`, {
                 Name: document.getElementById('nameid').value,
                 Email: document.getElementById('emailid').value,
                 Phone: document.getElementById('phnoid').value,
@@ -109,12 +110,18 @@
         }
 
         window.addEventListener("DOMContentLoaded", () => {
-            axios.get('https://crudcrud.com/api/baccd2e449ba4e769c44b9668ec350aa/users')
+            axios.get(`https://crudcrud.com/api/${crudapi}/users`)
                 .then(res => {
                     let d = res.data
                     for (let i = 0; i < d.length; i++) {
                         const li = document.createElement('li')
                         li.appendChild(document.createTextNode(`${d[i].Name} - ${d[i].Email} - ${d[i].Phone} - ${d[i].Date} - ${d[i].Time}`))
+                        li.setAttribute('id',d[i]._id)
+
+                        const delbtn = document.createElement('button')
+                        delbtn.appendChild(document.createTextNode('Delete'))
+                        delbtn.setAttribute('onclick','deleteFunction(event)')
+                        li.appendChild(delbtn)
                         l.appendChild(li)
                     }
                 })
@@ -122,6 +129,19 @@
                     alert('something went wrong')
                 })
         })
+
+        function deleteFunction(e){
+            e.preventDefault()
+            const elem = e.target.parentElement
+            const elemId = e.target.parentElement.getAttribute('id')
+            axios.delete(`https://crudcrud.com/api/${crudapi}/users/${elemId}`)
+            .then(res=>{
+                l.removeChild(elem)
+            })
+            .catch(err => {
+                    alert('something went wrong')
+                })
+        }
     </script>
 
 </body>
