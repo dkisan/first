@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Admin Dashboard</title>
+</head>
+
+<body>
+    <form action="" onsubmit="formSubmission(event)">
+        <label for="">Selling Price</label>
+        <input id="selPrice" type="text" name="" id="">
+        <label for="">Product Name</label>
+        <input id="prodName" type="text" name="" id="">
+        <label for="">Choose a Category </label>
+        <select name="" id="catValue">
+            <option value="electronics">Electronics</option>
+            <option value="Food">Food</option>
+            <option value="Skincare">Skincare</option>
+        </select>
+        <button type="submit">Add Product</button>
+    </form>
+
+    <h2>Products :</h2>
+    <h4><u>Electronics</u></h4>
+    <ul id="elecList">
+    </ul>
+
+    <h4><u>Food</u></h4>
+    <ul id="foodList">
+    </ul>
+
+    <h4><u>Skincare</u></h4>
+    <ul id="skinList">
+    </ul>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script src="sellerAdmin.js"></script>
+
+</body>
+
+</html>
