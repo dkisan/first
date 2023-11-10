@@ -74,11 +74,17 @@
             A CALL</button>
     </form>
 
+    <ul id="appointlist" style="background-color: white;">
+        <h1 style="text-align: center;">Appointment Lists </h1>
+
+    </ul>
+
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
 
     <script>
+        const l = document.getElementById('appointlist')
         function formsubmit(e) {
             e.preventDefault()
             console.log("Name : ", document.getElementById('nameid').value)
@@ -101,6 +107,21 @@
             })
 
         }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            axios.get('https://crudcrud.com/api/baccd2e449ba4e769c44b9668ec350aa/users')
+                .then(res => {
+                    let d = res.data
+                    for (let i = 0; i < d.length; i++) {
+                        const li = document.createElement('li')
+                        li.appendChild(document.createTextNode(`${d[i].Name} - ${d[i].Email} - ${d[i].Phone} - ${d[i].Date} - ${d[i].Time}`))
+                        l.appendChild(li)
+                    }
+                })
+                .catch(err => {
+                    alert('something went wrong')
+                })
+        })
     </script>
 
 </body>
