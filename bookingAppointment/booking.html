@@ -52,6 +52,7 @@
         <label for="Name">Phone No</label>
         <input type="number" name="phno" id="phnoid">
         <label for="timeforcall">Time for Call</label>
+        <!-- <input type="text" hidden id="tokenref" name="" id=""> -->
         <div style="display: flex;gap: 4px;">
             <input style="flex: 1;" type="date" name="date" id="dateid">
             <select style="flex: 1;" name="time" id="timeid">
@@ -69,7 +70,7 @@
                 <option value="12:00">12:00</option>
             </select>
         </div>
-        <button type="submit"
+        <button id="formbtn" type="submit"
             style="background-color: orange;border: none;padding: 8px;cursor: pointer;margin-top: 8px;color: white;font-weight: bold;">GET
             A CALL</button>
     </form>
@@ -86,29 +87,48 @@
     <script>
         const crudapi = 'baccd2e449ba4e769c44b9668ec350aa'
         const l = document.getElementById('appointlist')
+        const formbtn = document.getElementById('formbtn')
+        let a ;
+
         function formsubmit(e) {
             e.preventDefault()
-            console.log("Name : ", document.getElementById('nameid').value)
-            console.log("Email Id : ", document.getElementById('emailid').value)
-            console.log("Phone No : ", document.getElementById('phnoid').value)
-            console.log("Date : ", document.getElementById('dateid').value)
-            console.log("Time : ", document.getElementById('timeid').value)
+            if (formbtn.innerHTML == 'Update') {
+                axios.put(`https://crudcrud.com/api/${crudapi}/users/${a}`, {
+                    Name: document.getElementById('nameid').value,
+                    Email: document.getElementById('emailid').value,
+                    Phone: document.getElementById('phnoid').value,
+                    Date: document.getElementById('dateid').value,
+                    Time: document.getElementById('timeid').value
+                }).then(res => {
+                    alert('updated successfully')
+                    window.location.reload()
+                }).catch(err => {
+                    alert('something went wrong')
+                })
+            } else {
+
+                console.log("Name : ", document.getElementById('nameid').value)
+                console.log("Email Id : ", document.getElementById('emailid').value)
+                console.log("Phone No : ", document.getElementById('phnoid').value)
+                console.log("Date : ", document.getElementById('dateid').value)
+                console.log("Time : ", document.getElementById('timeid').value)
 
 
-            axios.post(`https://crudcrud.com/api/${crudapi}/users`, {
-                Name: document.getElementById('nameid').value,
-                Email: document.getElementById('emailid').value,
-                Phone: document.getElementById('phnoid').value,
-                Date: document.getElementById('dateid').value,
-                Time: document.getElementById('timeid').value
-            }).then(res => {
-                alert('submitted successfully')
-            }).catch(err => {
-                alert('something went wrong')
-            })
+                axios.post(`https://crudcrud.com/api/${crudapi}/users`, {
+                    Name: document.getElementById('nameid').value,
+                    Email: document.getElementById('emailid').value,
+                    Phone: document.getElementById('phnoid').value,
+                    Date: document.getElementById('dateid').value,
+                    Time: document.getElementById('timeid').value
+                }).then(res => {
+                    alert('submitted successfully')
+                }).catch(err => {
+                    alert('something went wrong')
+                })
+
+            }
 
         }
-
         window.addEventListener("DOMContentLoaded", () => {
             axios.get(`https://crudcrud.com/api/${crudapi}/users`)
                 .then(res => {
@@ -116,12 +136,18 @@
                     for (let i = 0; i < d.length; i++) {
                         const li = document.createElement('li')
                         li.appendChild(document.createTextNode(`${d[i].Name} - ${d[i].Email} - ${d[i].Phone} - ${d[i].Date} - ${d[i].Time}`))
-                        li.setAttribute('id',d[i]._id)
+                        li.setAttribute('id', d[i]._id)
 
                         const delbtn = document.createElement('button')
                         delbtn.appendChild(document.createTextNode('Delete'))
-                        delbtn.setAttribute('onclick','deleteFunction(event)')
+                        delbtn.setAttribute('onclick', 'deleteFunction(event)')
+
+                        const editbtn = document.createElement('button')
+                        editbtn.appendChild(document.createTextNode('Edit'))
+                        editbtn.setAttribute('onclick', 'updateFunction(event)')
+
                         li.appendChild(delbtn)
+                        li.appendChild(editbtn)
                         l.appendChild(li)
                     }
                 })
@@ -130,16 +156,32 @@
                 })
         })
 
-        function deleteFunction(e){
+        function deleteFunction(e) {
             e.preventDefault()
             const elem = e.target.parentElement
             const elemId = e.target.parentElement.getAttribute('id')
             axios.delete(`https://crudcrud.com/api/${crudapi}/users/${elemId}`)
-            .then(res=>{
-                l.removeChild(elem)
-            })
-            .catch(err => {
+                .then(res => {
+                    l.removeChild(elem)
+                })
+                .catch(err => {
                     alert('something went wrong')
+                })
+        }
+
+        function updateFunction(e) {
+            const elemId = e.target.parentElement.getAttribute('id')
+            axios.get(`https://crudcrud.com/api/${crudapi}/users/${elemId}`)
+                .then(res => {
+                    let d = res.data
+                    document.getElementById('nameid').value = d.Name
+                    document.getElementById('emailid').value = d.Email
+                    document.getElementById('phnoid').value = d.Phone
+                    document.getElementById('dateid').value = d.Date
+                    document.getElementById('timeid').value = d.Time
+
+                    formbtn.innerHTML = 'Update'
+                    a=elemId
                 })
         }
     </script>
