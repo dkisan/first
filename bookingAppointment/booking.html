@@ -74,6 +74,10 @@
             A CALL</button>
     </form>
 
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+
     <script>
         function formsubmit(e) {
             e.preventDefault()
@@ -83,7 +87,19 @@
             console.log("Date : ", document.getElementById('dateid').value)
             console.log("Time : ", document.getElementById('timeid').value)
 
-            
+
+            axios.post('https://crudcrud.com/api/baccd2e449ba4e769c44b9668ec350aa/users', {
+                Name: document.getElementById('nameid').value,
+                Email: document.getElementById('emailid').value,
+                Phone: document.getElementById('phnoid').value,
+                Date: document.getElementById('dateid').value,
+                Time: document.getElementById('timeid').value
+            }).then(res => {
+                alert('submitted successfully')
+            }).catch(err => {
+                alert('something went wrong')
+            })
+
         }
     </script>
 
