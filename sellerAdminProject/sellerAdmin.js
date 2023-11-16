@@ -6,10 +6,11 @@ const selPrice = document.getElementById('selPrice')
 const prodName = document.getElementById('prodName')
 const catValue = document.getElementById('catValue')
 
-const crudcrudurl = '9f3358bb38324668b8552703b92af07a'
+const crudcrudurl = '5a433a194d894c7f9f4df331e83a6ef5'
 
 async function formSubmission(e) {
     e.preventDefault()
+
     let prod = {
         price: selPrice.value,
         name: prodName.value,
@@ -66,7 +67,7 @@ async function deleteFunctionality(e) {
 
 }
 
-window.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', async () => {
     try {
         const res = await axios.get(`https://crudcrud.com/api/${crudcrudurl}/seller`)
         const d = res.data
