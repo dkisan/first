@@ -7,7 +7,7 @@ const student = {
     firstname: "Debasish",
     lastname: "Kisan",
     rollno: 1,
-    printfullname: () => {
+    printfullname: function () {
         console.log('Hi my name is ' + this.firstname + " " + this.lastname)
     }
 };
