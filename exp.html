@@ -21,40 +21,76 @@
             <option value="Electricity">Electricity</option>
             <option value="Movie">Movie</option>
         </select>
-        <button type="submit"> Add Expense</button>
+        <button id="addexp" type="submit"> Add Expense</button>
     </form>
     <ul id="explist"></ul>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
 
     <script>
         const explist = document.getElementById('explist')
         const expamount = document.getElementById('expamount')
         const expdesc = document.getElementById('expdesc')
         const expcategory = document.getElementById('expcategory')
+        const expbtn = document.getElementById('addexp')
+        let id;
+
+        const backendurl = 'http://localhost:3000/exp'
 
         document.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.length > 0) {
-                let a = Object.keys(localStorage)
-                for (let i = 0; i < a.length; i++) {
-                    let exp = JSON.parse(localStorage.getItem(a[i]))
-                    createChild(a[i], exp)
-                }
-            }
+            axios.get(`${backendurl}/getexpense`)
+                .then(res => {
+                    let d = res.data
+                    for (let i = 0; i < d.length; i++) {
+                        createChild(d[i].id, d[i])
+                    }
+                })
+                .catch(err => {
+                    alert('something went wrong')
+                })
+
         })
 
         function editFunction(e) {
             let elem = e.target.parentElement
-            let exp = JSON.parse(localStorage.getItem(elem.getAttribute('id')))
+            let exp = elem.getAttribute('id')
             expamount.value = exp.amount
             expdesc.value = exp.description
             expcategory.value = exp.category
-            localStorage.removeItem(elem.getAttribute('id'))
-            explist.removeChild(elem)
+
+            axios.get(`${backendurl}/getaexpense/${exp}`)
+                .then(res => {
+                    let d = res.data
+                    expamount.value = d.amount
+                    expdesc.value = d.description
+                    expcategory.value = d.category
+                    expbtn.innerHTML = 'Update Expense'
+                    id = d.id
+
+                })
+                .catch(err => {
+                    alert('something went wrong')
+                })
+
+
+
+
+
+            // localStorage.removeItem(elem.getAttribute('id'))
+            // explist.removeChild(elem)
         }
 
         function delFunction(e) {
             let elem = e.target.parentElement
-            localStorage.removeItem(elem.getAttribute('id'))
-            explist.removeChild(elem)
+            let exp = elem.getAttribute('id')
+            axios.delete(`${backendurl}/deleteexpense/${exp}`)
+                .then(res => {
+                    window.location.reload()
+                })
+                .catch(err => {
+                    alert('something went wrong--------')
+                })
+
         }
 
         function createChild(k, obj) {
@@ -71,24 +107,46 @@
             li.appendChild(delbtn)
             explist.appendChild(li)
             expamount.value = ''
-            expdesc.value =''
-            expcategory.value =''
+            expdesc.value = ''
+            expcategory.value = ''
 
         }
 
         function addExpense(e) {
             e.preventDefault()
-            let key = expamount.value + expdesc.value + expcategory.value
-            let exp = {
-                amount: expamount.value,
-                description: expdesc.value,
-                category: expcategory.value
+            if (expbtn.innerHTML == 'Update Expense') {
+                axios.put(`${backendurl}/updatexpense/${id}`, {
+                    amount: expamount.value,
+                    description: expdesc.value,
+                    category: expcategory.value
+                    // Date: document.getElementById('dateid').value,
+                    // Time: document.getElementById('timeid').value
+                }).then(res => {
+                    // alert('updated successfully')
+                    window.location.reload()
+                }).catch(err => {
+                    alert('something went wrong')
+                })
+            } else {
+
+                // let key = expamount.value + expdesc.value + expcategory.value
+                let exp = {
+                    amount: expamount.value,
+                    description: expdesc.value,
+                    category: expcategory.value
+                }
+
+                axios.post(`${backendurl}/addexpense`, exp)
+                    .then(res => {
+                        window.location.reload()
+                        // alert('submitted successfully')
+                    }).catch(err => {
+                        alert('something went wrong')
+                    })
+                // localStorage.setItem(key, JSON.stringify(exp))
+                // createChild(key, exp)
+
             }
-
-            localStorage.setItem(key, JSON.stringify(exp))
-            createChild(key, exp)
-
-
         }
     </script>
 
