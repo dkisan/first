@@ -51,8 +51,8 @@
         <input type="email" name="email" id="emailid">
         <label for="Name">Phone No</label>
         <input type="number" name="phno" id="phnoid">
-        <label for="timeforcall">Time for Call</label>
-        <!-- <input type="text" hidden id="tokenref" name="" id=""> -->
+        <!-- <label for="timeforcall">Time for Call</label>
+       <input type="text" hidden id="tokenref" name="" id=""> 
         <div style="display: flex;gap: 4px;">
             <input style="flex: 1;" type="date" name="date" id="dateid">
             <select style="flex: 1;" name="time" id="timeid">
@@ -69,7 +69,7 @@
                 <option value="11:00">11:00</option>
                 <option value="12:00">12:00</option>
             </select>
-        </div>
+        </div> -->
         <button id="formbtn" type="submit"
             style="background-color: orange;border: none;padding: 8px;cursor: pointer;margin-top: 8px;color: white;font-weight: bold;">GET
             A CALL</button>
@@ -85,7 +85,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
 
     <script>
-        const crudapi = 'baccd2e449ba4e769c44b9668ec350aa'
+        // const crudapi = 'baccd2e449ba4e769c44b9668ec350aa'
+        const backendurl = 'http://localhost:3000/booking'
         const l = document.getElementById('appointlist')
         const formbtn = document.getElementById('formbtn')
         let a ;
@@ -93,35 +94,36 @@
         function formsubmit(e) {
             e.preventDefault()
             if (formbtn.innerHTML == 'Update') {
-                axios.put(`https://crudcrud.com/api/${crudapi}/users/${a}`, {
+                axios.put(`${backendurl}/updateuser/${a}`, {
                     Name: document.getElementById('nameid').value,
                     Email: document.getElementById('emailid').value,
                     Phone: document.getElementById('phnoid').value,
-                    Date: document.getElementById('dateid').value,
-                    Time: document.getElementById('timeid').value
+                    // Date: document.getElementById('dateid').value,
+                    // Time: document.getElementById('timeid').value
                 }).then(res => {
-                    alert('updated successfully')
+                    // alert('updated successfully')
                     window.location.reload()
                 }).catch(err => {
                     alert('something went wrong')
                 })
             } else {
 
-                console.log("Name : ", document.getElementById('nameid').value)
-                console.log("Email Id : ", document.getElementById('emailid').value)
-                console.log("Phone No : ", document.getElementById('phnoid').value)
-                console.log("Date : ", document.getElementById('dateid').value)
-                console.log("Time : ", document.getElementById('timeid').value)
+                // console.log("Name : ", document.getElementById('nameid').value)
+                // console.log("Email Id : ", document.getElementById('emailid').value)
+                // console.log("Phone No : ", document.getElementById('phnoid').value)
+                // console.log("Date : ", document.getElementById('dateid').value)
+                // console.log("Time : ", document.getElementById('timeid').value)
 
 
-                axios.post(`https://crudcrud.com/api/${crudapi}/users`, {
+                axios.post(`${backendurl}/adduser`, {
                     Name: document.getElementById('nameid').value,
                     Email: document.getElementById('emailid').value,
                     Phone: document.getElementById('phnoid').value,
-                    Date: document.getElementById('dateid').value,
-                    Time: document.getElementById('timeid').value
+                    // Date: document.getElementById('dateid').value,
+                    // Time: document.getElementById('timeid').value
                 }).then(res => {
-                    alert('submitted successfully')
+                    window.location.reload()
+                    // alert('submitted successfully')
                 }).catch(err => {
                     alert('something went wrong')
                 })
@@ -130,13 +132,15 @@
 
         }
         window.addEventListener("DOMContentLoaded", () => {
-            axios.get(`https://crudcrud.com/api/${crudapi}/users`)
+            axios.get(`${backendurl}/getuser`)
                 .then(res => {
                     let d = res.data
                     for (let i = 0; i < d.length; i++) {
                         const li = document.createElement('li')
-                        li.appendChild(document.createTextNode(`${d[i].Name} - ${d[i].Email} - ${d[i].Phone} - ${d[i].Date} - ${d[i].Time}`))
-                        li.setAttribute('id', d[i]._id)
+                        // li.appendChild(document.createTextNode(`${d[i].Name} - ${d[i].Email} - ${d[i].Phone} - ${d[i].Date} - ${d[i].Time}`))
+                        li.appendChild(document.createTextNode(`${d[i].name} - ${d[i].email} - ${d[i].phoneno}`))
+                        // li.setAttribute('id', d[i]._id)
+                        li.setAttribute('id', d[i].id)
 
                         const delbtn = document.createElement('button')
                         delbtn.appendChild(document.createTextNode('Delete'))
@@ -160,7 +164,7 @@
             e.preventDefault()
             const elem = e.target.parentElement
             const elemId = e.target.parentElement.getAttribute('id')
-            axios.delete(`https://crudcrud.com/api/${crudapi}/users/${elemId}`)
+            axios.delete(`${backendurl}/deleteuser/${elemId}`)
                 .then(res => {
                     l.removeChild(elem)
                 })
@@ -171,14 +175,14 @@
 
         function updateFunction(e) {
             const elemId = e.target.parentElement.getAttribute('id')
-            axios.get(`https://crudcrud.com/api/${crudapi}/users/${elemId}`)
+            axios.get(`${backendurl}/getauser/${elemId}`)
                 .then(res => {
                     let d = res.data
-                    document.getElementById('nameid').value = d.Name
-                    document.getElementById('emailid').value = d.Email
-                    document.getElementById('phnoid').value = d.Phone
-                    document.getElementById('dateid').value = d.Date
-                    document.getElementById('timeid').value = d.Time
+                    document.getElementById('nameid').value = d.name
+                    document.getElementById('emailid').value = d.email
+                    document.getElementById('phnoid').value = d.phoneno
+                    // document.getElementById('dateid').value = d.Date
+                    // document.getElementById('timeid').value = d.Time
 
                     formbtn.innerHTML = 'Update'
                     a=elemId
